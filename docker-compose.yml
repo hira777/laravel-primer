@@ -1,0 +1,61 @@
+version: "3"
+# サービス（アプリケーションの構成要素）
+services:
+  app:
+    # 指定したディレクトリにある Dockerfile でコンテナを起動する
+    build:
+      context: ./docker/php
+      args:
+        # `${TZ}`などは`.env`の環境変数が利用される
+        - TZ=${TZ}
+
+    # マウントする設定ファイルのパス
+    volumes:
+      # ローカルのパス:コンテナのパス
+      - ./src:/work
+      - ./logs:/var/log/php
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini
+
+    # コンテナ内のワーキングディレクトリ。`docker run -w`に相当
+    working_dir: /work
+
+    # コンテナの環境変数
+    environment:
+      - DB_CONNECTION=pgsql
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_DATABASE=${DB_NAME}
+      - DB_USERNAME=${DB_USER}
+      - DB_PASSWORD=${DB_PASS}
+      - TZ=${TZ}
+  web:
+    image: nginx:1.17-alpine
+
+    # コンテナの依存関係。今回の場合、web は app に依存している
+    depends_on:
+      - app
+
+    # コンテナにアクセスできる port。今回の場合 http://127.0.0.1:10080/ でアクセスできる。
+    ports:
+      - 10080:80
+    volumes:
+      - ./src:/work
+      - ./logs:/var/log/nginx
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    environment:
+      - TZ=${TZ}
+  db:
+    image: postgres:11-alpine
+    volumes:
+      # postgres のデータを永続化する
+      - ./postgresql:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_USER=${DB_USER}
+      - POSTGRES_PASSWORD=${DB_PASS}
+    # DB クライアントツールから接続できるようにする
+    ports:
+      - 15432:5432
+
+volumes:
+  db-store:

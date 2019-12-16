@@ -97,3 +97,17 @@ public function up()
 今回、`Schema::create()`の引数に`folders`を渡しているので、作成されるテーブル名は folders になる。
 
 この状態で、`php artisan migration`コマンドを実行すれば、マイグレーションが実行されテーブルが作成される。
+
+## 定義したテーブル
+
+### tasks テーブル
+
+| カラム倫理名 | カラム物理名 | 型           | 型の意味             |
+| ------------ | ------------ | ------------ | -------------------- |
+| ID           | id           | SERIAL       | 連番 （自動採番）    |
+| フォルダID   | folder_id    | INTEGER      | 数値                 |
+| タイトル     | title        | VARCHAR(100) | 100 文字までの文字列 |
+| 状態         | status       | INTEGER      | 数値                 |
+| 期限日       | due_date     | DATE         | 日付                 |
+| 作成日       | created_at   | TIMESTAMP    | 日付と時刻           |
+| 更新日       | updated_at   | TIMESTAMP    | 日付と時刻           |

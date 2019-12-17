@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Folder;
+use App\Task;
 use Illuminate\Http\Request;
 
 class TaskController extends Controller
@@ -14,9 +15,17 @@ class TaskController extends Controller
         // folders テーブルのデータを全て取得
         $folders = Folder::all();
 
+        // folders テーブルから指定した id のフォルダを取得
+        $current_folder = Folder::find($id);
+
+        // 指定したフォルダに紐づくタスクを取得
+        $tasks = Task::where('folder_id', $current_folder->id)->get();
+        // ↑は Task::where('folder_id', '=', $current_folder->id->get()); の省略形
+
         return view('tasks/index', [
             'folders' => $folders,
             'current_folder_id' => $id,
+            'tasks' => $tasks,
         ]);
     }
 }

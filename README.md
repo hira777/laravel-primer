@@ -1,5 +1,7 @@
 # Laravel Primer
 
+- [入門 Laravel チュートリアル](https://leanpub.com/laravel-primer)
+
 ## 開発環境の構築
 
 ```shell

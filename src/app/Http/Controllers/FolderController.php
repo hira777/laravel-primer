@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Folder;
+use App\Http\Requests\CreateFolder;
 use Illuminate\Http\Request;
 
 class FolderController extends Controller
@@ -13,7 +14,10 @@ class FolderController extends Controller
     }
 
     // $request にリクエストの情報が渡される
-    public function create(Request $request)
+    // CreateFolder は FormRequest を継承しており、
+    // FormRequest は Request と互換性が」あるため、リクエストの情報を取得しつつ
+    // バリデーションチェックを追加することが可能
+    public function create(CreateFolder $request)
     {
         // Folder モデルのインスタンスを生成
         $folder = new Folder();

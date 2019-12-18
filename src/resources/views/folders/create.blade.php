@@ -34,6 +34,7 @@
                   @csrf
                   <div class="form-group">
                     <label for="title">フォルダ名</label>
+                    {{-- value="{{ old('title') }}" を記述しているので、入力エラーでフォーム画面に戻ってきた時に入力した値が復元される --}}
                     <input type="text" class="form-control" name="title" id="title" value="{{ old('title') }}" />
                   </div>
                   <div class="text-right">

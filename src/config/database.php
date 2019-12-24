@@ -91,6 +91,12 @@ return [
             'prefix_indexes' => true,
         ],
 
+        // メモリ上のデータベースを利用する設定
+        'sqlite_testing' => [
+            'driver' => 'sqlite',
+            'datebase' => ':memory',
+            'prefix' => '',
+        ]
     ],
 
     /*
@@ -123,7 +129,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [

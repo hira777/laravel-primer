@@ -34,15 +34,15 @@ class CreateTask extends FormRequest
     public function attributes()
     {
         return [
-            'title' => ' タイトル',
-            'due_date' => ' 期限日',
+            'title' => 'タイトル',
+            'due_date' => '期限日',
         ];
     }
 
     /**
      * エラーメッセージ
      */
-    public function massages()
+    public function messages()
     {
         return [
             // 'due_date.after_or_equal' なので
